@@ -65,6 +65,19 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             ],
         ],
     ]);
+    echo Nav::widget([
+      
+        // hier worden de menu's en menu items bepaald
+          'options' => ['class' => 'navbar-nav navbar-right'],
+          'items' => [
+              [ 'label' => 'City',
+                  'items' => [
+                      ['label' => 'Overzicht', 'url' => ['/city/index', ''] ],
+                      ['label' => 'Voeg toe', 'url' => ['/city/create', ''] ],
+                  ],
+              ],
+          ],
+      ]);
                   
    NavBar::end();
  ?> 
