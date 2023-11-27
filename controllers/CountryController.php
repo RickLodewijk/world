@@ -30,6 +30,10 @@ class CountryController extends Controller
             ]
         );
     }
+    public function actionHello() {
+        echo "Hello World!";
+        exit;
+    }
 
     /**
      * Lists all Country models.

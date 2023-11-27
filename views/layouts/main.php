@@ -30,7 +30,40 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <?php $this->beginBody() ?>
 
 <header id="header">
-    <?php
+<?php
+	// plaats deze code in de main.php en vervang daarmee de standaard menu
+
+    NavBar::begin([
+      
+     // hier wordt het type en de stijl van de menu bepaald
+       'brandLabel' => Yii::$app->name,  // de naam van het menu
+       'brandUrl' => Yii::$app->homeUrl, // de home page waar je naar toe gaat als je op de naam klikt
+       'options' => [
+          'class' => 'navbar-expand-md navbar-dark bg-dark fixed-top',
+        ],
+      
+   ]);
+                  
+                  
+    echo Nav::widget([
+      
+      // hier worden de menu's en menu items bepaald
+        'options' => ['class' => 'navbar-nav navbar-right'],
+        'items' => [
+            [ 'label' => 'Country',
+                'items' => [
+                    ['label' => 'Overzicht', 'url' => ['/country/index', ''] ],
+                    ['label' => 'Voeg toe', 'url' => ['/country/create', ''] ],
+                    ['label' => 'Europa', 'url' => ['country/index?CountrySearch[Continent]=europe'] ],
+                    ['label' => 'Asia', 'url' => ['country/index?CountrySearch[Continent]=asia'] ],
+                ],
+            ],
+        ],
+    ]);
+                  
+   NavBar::end();
+ ?> 
+    <!-- <?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
@@ -55,7 +88,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         ]
     ]);
     NavBar::end();
-    ?>
+    ?> -->
 </header>
 
 <main id="main" class="flex-shrink-0" role="main">

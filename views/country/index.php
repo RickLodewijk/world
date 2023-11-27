@@ -17,9 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Country', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -33,7 +31,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'Name',
             'Continent',
             'Region',
-            'SurfaceArea',
             //'IndepYear',
             //'Population',
             //'LifeExpectancy',
@@ -52,6 +49,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+        <p>
+        <?= Html::a('Create Country', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
 
 
 </div>
