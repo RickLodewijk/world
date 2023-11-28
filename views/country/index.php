@@ -33,9 +33,16 @@ $this->params['breadcrumbs'][] = $this->title;
             //'Region',
             //'IndepYear',
             [ 'label' => 'Inwoners',
-            'attribute' => 'Population' ],
-            [ 'label' => 'Oppervlakte',
-            'attribute' => 'SurfaceArea',
+            'attribute' => 'Population',
+            'contentOptions' => ['style' => 'width:30px; white-space: normal;']],
+            [
+                'label' => 'Oppervlakte',
+                'attribute' => 'SurfaceArea',
+                'format' => 'raw',
+                'value' => function($data) {
+                    // return 'hello';
+                    return sprintf("%8d k&#13217", $data->SurfaceArea);
+                }
             ],
             //'LifeExpectancy',
             //'GNP',
@@ -43,7 +50,13 @@ $this->params['breadcrumbs'][] = $this->title;
             //'LocalName',
             //'GovernmentForm',
             //'HeadOfState',
-            'Capital',
+            [ 'label' => 'Hoofdstad',
+            'attribute' => 'Capital',
+            'contentOptions' => ['style' => 'width:30px; white-space: normal;'],
+            'format' => 'raw',
+            'value' => function($data) {
+                  return HTML::a($data->Capital,['/city/index', 'CitySearch[ID]'=> $data -> Capital]);
+            }],
             //'Code2',
             [
                 'class' => ActionColumn::className(),
