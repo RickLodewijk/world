@@ -25,13 +25,30 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
+            [
+                'class' => ActionColumn::className(),
+                'urlCreator' => function ($action, Country $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'Code' => $model->Code]);
+                 }
+            ],
+            //['class' => 'yii\grid\SerialColumn'],
             'Code',
-            'Name',
+            //Naam
+            ['label'=>'Naam',
+            'attribute' => 'Name',
+            'contentOptions' => ['style' => 'color: black; font-weight: bold; ']],
+            //Hoofdstad
+            [ 'label' => 'Hoofdstad',
+            'attribute' => 'Capital',
+            'contentOptions' => ['style' => 'width:200px; white-space: normal;'],
+            'format' => 'raw',
+            'value' => function($data) {
+                  return HTML::a('Naar hoofdstad',['/city/index', 'CitySearch[ID]'=> $data -> Capital]);
+            }],
             //'Continent',
             //'Region',
             //'IndepYear',
+            //Inwoner
             [ 'label' => 'Inwoners',
             'attribute' => 'Population',
             'contentOptions' => ['style' => 'width:30px; white-space: normal;']],
@@ -50,20 +67,9 @@ $this->params['breadcrumbs'][] = $this->title;
             //'LocalName',
             //'GovernmentForm',
             //'HeadOfState',
-            [ 'label' => 'Hoofdstad',
-            'attribute' => 'Capital',
-            'contentOptions' => ['style' => 'width:30px; white-space: normal;'],
-            'format' => 'raw',
-            'value' => function($data) {
-                  return HTML::a($data->Capital,['/city/index', 'CitySearch[ID]'=> $data -> Capital]);
-            }],
+
             //'Code2',
-            [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Country $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'Code' => $model->Code]);
-                 }
-            ],
+
         ],
     ]); ?>
         <p>
