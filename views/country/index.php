@@ -67,11 +67,20 @@ $this->params['breadcrumbs'][] = $this->title;
             //'LocalName',
             //'GovernmentForm',
             //'HeadOfState',
+            [
+                'label' => 'Bevolkingsdichtheid',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    $population = $data->Population;
+                    $surfaceArea = $data->SurfaceArea;
 
+                        $populationDensity = $population / $surfaceArea;
+                        return round( $populationDensity);
+                }
+            ]
             //'Code2',
-
-        ],
-    ]); ?>
+        ]])
+         ?>
         <p>
         <?= Html::a('Create Country', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
