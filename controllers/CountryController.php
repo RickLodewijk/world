@@ -35,9 +35,38 @@ class CountryController extends Controller
         exit;
     }
 
-    public function actionOops() {
-        return 'oops';
+    public function actionOverzicht()//Deze pagina kan nu nog niet worden gevonden doordat countries niet bestaat.
+    {
+        // Rick Lodewijk
+        // dit is de query, dit is te vergelijken met select * from Country
+        $countries=Country::find()->all();
+      
+        // de view wordt aangeroepen en het object $countries en $pagination wordt meegegeven.
+        return $this->render('overzicht', [
+            'countries' => $countries,
+        ]);
     }
+
+    public function actionOverzichtEurope() 
+    {
+        $countries = country::find()
+            ->select(['Name', 'SurfaceArea'])
+            ->where(['Continent' => 'europe'])
+            ->orderBy(['Name' => SORT_ASC])
+            ->all();
+    
+        return $this->render('overzicht', [
+            'countries' => $countries,
+        ]);
+    }
+    
+    
+
+    // public function actionOverzichtEurope()
+    // {
+    //     return $this->render("SELECT * FROM 'country' WHERE Continent = 'Europe' ORDER BY Name ASC");
+    // }
+
     /**
      * Lists all Country models.
      *
