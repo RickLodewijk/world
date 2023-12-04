@@ -35,6 +35,9 @@ class CountryController extends Controller
         exit;
     }
 
+    public function actionOops() {
+        return 'oops';
+    }
     /**
      * Lists all Country models.
      *
