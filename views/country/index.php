@@ -17,73 +17,90 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-
-
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'columns' => [
+                'columns' => [
             [
                 'class' => ActionColumn::className(),
+                'headerOptions' => [ 'style' => 'text-align:right;' ],
+                'contentOptions' => ['style' => 'text-align:right;'],
                 'urlCreator' => function ($action, Country $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'Code' => $model->Code]);
-                 }
+                }
             ],
             //['class' => 'yii\grid\SerialColumn'],
-            'Code',
-            //Naam
-            ['label'=>'Naam',
-            'attribute' => 'Name',
-            'contentOptions' => ['style' => 'color: black; font-weight: bold; ']],
-            //Hoofdstad
-            [ 'label' => 'Hoofdstad',
-            'attribute' => 'Capital',
-            'contentOptions' => ['style' => 'width:200px; white-space: normal;'],
-            'format' => 'raw',
-            'value' => function($data) {
-                  return HTML::a('Naar hoofdstad',['/city/index', 'CitySearch[ID]'=> $data -> Capital]);
-            }],
-            //'Continent',
-            //'Region',
-            //'IndepYear',
-            //Inwoner
-            [ 'label' => 'Inwoners',
-            'attribute' => 'Population',
-            'contentOptions' => ['style' => 'width:30px; white-space: normal;']],
+            [
+                'label' =>'Code',
+                'attribute' => 'Code',
+                'headerOptions' => [ 'style' => 'text-align:right;' ],
+                'contentOptions' => ['style' => 'text-align:right;'],
+            ],
+            // Naam
+            [
+                'label' => 'Naam',
+                'attribute' => 'Name',
+                'headerOptions' => [ 'style' => 'text-align:right; background-color:darkblue;' ],
+                'contentOptions' => ['style' => 'color: black; font-weight: bold; text-align:right;'],
+            ],
+            // Hoofdstad
+            [
+                'label' => 'Hoofdstad',
+                'attribute' => 'Capital',
+                'headerOptions' => [ 'style' => 'text-align:right;' ],
+                'contentOptions' => ['style' => 'width:200px; white-space: normal;'],
+                'contentOptions' => ['style' => 'text-align:right;'],
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return HTML::a('Naar hoofdstad', ['/city/index', 'CitySearch[ID]' => $data->Capital]);
+                },
+            ],
+            // Inwoner
+            [
+                'label' => 'Inwoners',
+                'attribute' => 'Population',
+                'headerOptions' => [ 'style' => 'text-align:right;' ],
+                'contentOptions' => ['style' => 'width:30px; white-space: normal;'],
+                'contentOptions' => ['style' => 'text-align:right;'],
+                'value' => function ($data) {
+                    $population = $data->Population;
+                    if ($population <= 0) {
+                        return 'onbewoond';
+                    }
+                    return number_format($population);
+                },
+            ],
             [
                 'label' => 'Oppervlakte',
                 'attribute' => 'SurfaceArea',
+                'headerOptions' => [ 'style' => 'text-align:right;' ],
+                'contentOptions' => ['style' => 'text-align:right;'],
                 'format' => 'raw',
-                'value' => function($data) {
-                    // return 'hello';
+                'value' => function ($data) {
                     return sprintf("%8d k&#13217", $data->SurfaceArea);
-                }
+                },
             ],
-            //'LifeExpectancy',
-            //'GNP',
-            //'GNPOld',
-            //'LocalName',
-            //'GovernmentForm',
-            //'HeadOfState',
             [
                 'label' => 'Bevolkingsdichtheid',
+                'headerOptions' => [ 'style' => 'text-align:right;' ],
+                'contentOptions' => ['style' => 'text-align:right;'],
                 'format' => 'raw',
                 'value' => function ($data) {
                     $population = $data->Population;
                     $surfaceArea = $data->SurfaceArea;
-
+                    if ($surfaceArea > 0) {
                         $populationDensity = $population / $surfaceArea;
-                        return round( $populationDensity);
-                }
-            ]
+                        return round($populationDensity,2);
+                    }
+                    return 'Ongeldige oppervlakte'; // Een fallback als de oppervlakte nul is of niet beschikbaar.
+                },
+            ],
             //'Code2',
-        ]])
-         ?>
-        <p>
+        ],
+    ]) ?>
+    <p>
         <?= Html::a('Create Country', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
-
 </div>
