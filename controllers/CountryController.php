@@ -50,8 +50,9 @@ class CountryController extends Controller
     public function actionOverzichtEurope() 
     {
         $countries = country::find()
-            ->select(['Name', 'SurfaceArea'])
+            ->select(['Name', 'SurfaceArea','Capital'])
             ->where(['Continent' => 'europe'])
+            ->andWhere(['<', 'SurfaceArea', 100000])
             ->orderBy(['Name' => SORT_ASC])
             ->all();
     
@@ -59,7 +60,6 @@ class CountryController extends Controller
             'countries' => $countries,
         ]);
     }
-    
     
 
     // public function actionOverzichtEurope()
