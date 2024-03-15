@@ -2,16 +2,16 @@
 
 namespace app\controllers;
 
-use app\models\Country;
-use app\models\CountrySearch;
+use app\models\CountryLanguage;
+use app\models\CountryLanguageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CountryController implements the CRUD actions for Country model.
+ * CountryLanguageController implements the CRUD actions for CountryLanguage model.
  */
-class CountryController extends Controller
+class CountryLanguageController extends Controller
 {
     /**
      * @inheritDoc
@@ -30,50 +30,15 @@ class CountryController extends Controller
             ]
         );
     }
-    public function actionHello() {
-        echo "Hello World!";
-        exit;
-    }
-
-    public function actionOverzicht()//Deze pagina kan nu nog niet worden gevonden doordat countries niet bestaat.
-    {
-        // Rick Lodewijk
-        // dit is de query, dit is te vergelijken met select * from Country
-        $countries=Country::find()->all();
-      
-        // de view wordt aangeroepen en het object $countries en $pagination wordt meegegeven.
-        return $this->render('overzicht', [
-            'countries' => $countries,
-        ]);
-    }
-
-    public function actionOverzichtEurope() 
-    {
-        $countries = country::find()
-            //->select(['Name', 'SurfaceArea','Capital'])
-            ->where(['Continent' => 'europe'])
-            ->andWhere(['<', 'SurfaceArea', 100000])
-            ->orderBy(['Name' => SORT_ASC])
-            ->all();
-        return $this->render('overzicht', [
-            'countries' => $countries,
-        ]);
-    }
-    
-
-    // public function actionOverzichtEurope()
-    // {
-    //     return $this->render("SELECT * FROM 'country' WHERE Continent = 'Europe' ORDER BY Name ASC");
-    // }
 
     /**
-     * Lists all Country models.
+     * Lists all CountryLanguage models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new CountrySearch();
+        $searchModel = new CountryLanguageSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -83,30 +48,31 @@ class CountryController extends Controller
     }
 
     /**
-     * Displays a single Country model.
-     * @param string $Code Code
+     * Displays a single CountryLanguage model.
+     * @param string $CountryCode Country Code
+     * @param string $Language Language
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($Code)
+    public function actionView($CountryCode, $Language)
     {
         return $this->render('view', [
-            'model' => $this->findModel($Code),
+            'model' => $this->findModel($CountryCode, $Language),
         ]);
     }
 
     /**
-     * Creates a new Country model.
+     * Creates a new CountryLanguage model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Country();
+        $model = new CountryLanguage();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'Code' => $model->Code]);
+                return $this->redirect(['view', 'CountryCode' => $model->CountryCode, 'Language' => $model->Language]);
             }
         } else {
             $model->loadDefaultValues();
@@ -118,18 +84,19 @@ class CountryController extends Controller
     }
 
     /**
-     * Updates an existing Country model.
+     * Updates an existing CountryLanguage model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param string $Code Code
+     * @param string $CountryCode Country Code
+     * @param string $Language Language
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($Code)
+    public function actionUpdate($CountryCode, $Language)
     {
-        $model = $this->findModel($Code);
+        $model = $this->findModel($CountryCode, $Language);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'Code' => $model->Code]);
+            return $this->redirect(['view', 'CountryCode' => $model->CountryCode, 'Language' => $model->Language]);
         }
 
         return $this->render('update', [
@@ -138,29 +105,31 @@ class CountryController extends Controller
     }
 
     /**
-     * Deletes an existing Country model.
+     * Deletes an existing CountryLanguage model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param string $Code Code
+     * @param string $CountryCode Country Code
+     * @param string $Language Language
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($Code)
+    public function actionDelete($CountryCode, $Language)
     {
-        $this->findModel($Code)->delete();
+        $this->findModel($CountryCode, $Language)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Country model based on its primary key value.
+     * Finds the CountryLanguage model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string $Code Code
-     * @return Country the loaded model
+     * @param string $CountryCode Country Code
+     * @param string $Language Language
+     * @return CountryLanguage the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($Code)
+    protected function findModel($CountryCode, $Language)
     {
-        if (($model = Country::findOne(['Code' => $Code])) !== null) {
+        if (($model = CountryLanguage::findOne(['CountryCode' => $CountryCode, 'Language' => $Language])) !== null) {
             return $model;
         }
 

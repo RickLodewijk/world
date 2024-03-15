@@ -42,8 +42,8 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Naam',
                 'attribute' => 'Name',
-                'headerOptions' => [ 'style' => 'text-align:right; background-color:darkblue;' ],
-                'contentOptions' => ['style' => 'color: black; font-weight: bold; text-align:right;'],
+                'headerOptions' => [ 'style' => 'text-align:right;' ],
+                'contentOptions' => ['style' => 'color: darkblue; font-weight: bold; text-align:right;'],
             ],
             // Hoofdstad
             [

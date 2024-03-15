@@ -1,7 +1,7 @@
 <?php
 
 namespace app\models;
-
+use yii\helpers\Html;
 use Yii;
 
 /**
@@ -26,6 +26,7 @@ use Yii;
  * @property City[] $cities
  * @property Countrylanguage[] $countrylanguages
  */
+
 class Country extends \yii\db\ActiveRecord
 {
     /**
@@ -56,6 +57,26 @@ class Country extends \yii\db\ActiveRecord
         ];
     }
 
+
+
+    public function getLanguages()
+    {
+        return $this->hasMany(Language::class, ['country_id' => 'id']); 
+    }
+    
+
+
+
+    public function getLanguage()
+    {
+        $countryLanguage = $this->getCountrylanguages()->one();
+    
+        if ($countryLanguage !== null) {
+            return $countryLanguage->Language;
+        } else {
+            return 'N/A';
+        }
+    }
     /**
      * {@inheritdoc}
      */
@@ -78,12 +99,26 @@ class Country extends \yii\db\ActiveRecord
             'Capital' => 'Capital',
             'Code2' => 'Code2',
         ];
+    }    
+    
+    public function getHoofdstad()
+    {
+        return $this->hasOne(City::class, ['ID' => 'Capital']);
+    }
+    
+    public function getTalen()
+    {
+        return $this->hasMany(Countrylanguage::class, ['CountryCode' => 'Code'])
+        ->orderBy(['Percentage' => SORT_DESC]);
+
     }
 
-    public function getHoofdstad()
-        {
-            return $this->hasOne(City::className(), ['ID' => 'Capital']);
-        }
+    public function getPercentage()
+    {
+        return $this->hasMany(Countrylanguage::class, ['CountryCode' => 'Percentage'])
+        ->orderBy(['Percentage' => SORT_DESC]);
+    }
+
     /**
      * Gets query for [[Cities]].
      *
@@ -91,7 +126,7 @@ class Country extends \yii\db\ActiveRecord
      */
     public function getCities()
     {
-        return $this->hasMany(City::class, ['CountryCode' => 'Code']);
+        return $this->hasMany(City::class, ['Code' => 'CountryCode']);
     }
 
     /**
@@ -103,4 +138,4 @@ class Country extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Countrylanguage::class, ['CountryCode' => 'Code']);
     }
-}
+ }

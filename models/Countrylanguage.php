@@ -52,7 +52,7 @@ class Countrylanguage extends \yii\db\ActiveRecord
             'Percentage' => 'Percentage',
         ];
     }
-
+    
     /**
      * Gets query for [[CountryCode]].
      *

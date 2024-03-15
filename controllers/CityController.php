@@ -2,16 +2,16 @@
 
 namespace app\controllers;
 
-use app\models\Country;
-use app\models\CountrySearch;
+use app\models\City;
+use app\models\CitySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CountryController implements the CRUD actions for Country model.
+ * CityController implements the CRUD actions for City model.
  */
-class CountryController extends Controller
+class CityController extends Controller
 {
     /**
      * @inheritDoc
@@ -30,50 +30,15 @@ class CountryController extends Controller
             ]
         );
     }
-    public function actionHello() {
-        echo "Hello World!";
-        exit;
-    }
-
-    public function actionOverzicht()//Deze pagina kan nu nog niet worden gevonden doordat countries niet bestaat.
-    {
-        // Rick Lodewijk
-        // dit is de query, dit is te vergelijken met select * from Country
-        $countries=Country::find()->all();
-      
-        // de view wordt aangeroepen en het object $countries en $pagination wordt meegegeven.
-        return $this->render('overzicht', [
-            'countries' => $countries,
-        ]);
-    }
-
-    public function actionOverzichtEurope() 
-    {
-        $countries = country::find()
-            //->select(['Name', 'SurfaceArea','Capital'])
-            ->where(['Continent' => 'europe'])
-            ->andWhere(['<', 'SurfaceArea', 100000])
-            ->orderBy(['Name' => SORT_ASC])
-            ->all();
-        return $this->render('overzicht', [
-            'countries' => $countries,
-        ]);
-    }
-    
-
-    // public function actionOverzichtEurope()
-    // {
-    //     return $this->render("SELECT * FROM 'country' WHERE Continent = 'Europe' ORDER BY Name ASC");
-    // }
 
     /**
-     * Lists all Country models.
+     * Lists all City models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new CountrySearch();
+        $searchModel = new CitySearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -83,30 +48,30 @@ class CountryController extends Controller
     }
 
     /**
-     * Displays a single Country model.
-     * @param string $Code Code
+     * Displays a single City model.
+     * @param int $ID ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($Code)
+    public function actionView($ID)
     {
         return $this->render('view', [
-            'model' => $this->findModel($Code),
+            'model' => $this->findModel($ID),
         ]);
     }
 
     /**
-     * Creates a new Country model.
+     * Creates a new City model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Country();
+        $model = new City();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'Code' => $model->Code]);
+                return $this->redirect(['view', 'ID' => $model->ID]);
             }
         } else {
             $model->loadDefaultValues();
@@ -118,18 +83,18 @@ class CountryController extends Controller
     }
 
     /**
-     * Updates an existing Country model.
+     * Updates an existing City model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param string $Code Code
+     * @param int $ID ID
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($Code)
+    public function actionUpdate($ID)
     {
-        $model = $this->findModel($Code);
+        $model = $this->findModel($ID);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'Code' => $model->Code]);
+            return $this->redirect(['view', 'ID' => $model->ID]);
         }
 
         return $this->render('update', [
@@ -138,29 +103,29 @@ class CountryController extends Controller
     }
 
     /**
-     * Deletes an existing Country model.
+     * Deletes an existing City model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param string $Code Code
+     * @param int $ID ID
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($Code)
+    public function actionDelete($ID)
     {
-        $this->findModel($Code)->delete();
+        $this->findModel($ID)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Country model based on its primary key value.
+     * Finds the City model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string $Code Code
-     * @return Country the loaded model
+     * @param int $ID ID
+     * @return City the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($Code)
+    protected function findModel($ID)
     {
-        if (($model = Country::findOne(['Code' => $Code])) !== null) {
+        if (($model = City::findOne(['ID' => $ID])) !== null) {
             return $model;
         }
 
